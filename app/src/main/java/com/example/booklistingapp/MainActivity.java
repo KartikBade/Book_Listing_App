@@ -4,6 +4,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.LoaderManager;
+import android.app.SearchManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -79,6 +81,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     url = "https://www.googleapis.com/books/v1/volumes?q=" + query;
                     getLoaderManager().restartLoader(0, null, MainActivity.this).forceLoad();
                 }
+            }
+        });
+
+        mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView titleTextView = view.findViewById(R.id.title_text_view);
+                String query = (String) titleTextView.getText();
+                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                intent.putExtra(SearchManager.QUERY, query);
+                startActivity(intent);
             }
         });
     }
